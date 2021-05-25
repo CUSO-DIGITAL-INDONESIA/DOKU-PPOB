@@ -8,5 +8,6 @@ router.get(
 );
 
 router.post("/DepositSystem-api/AgentLoginMIP?", Controller.Login);
+router.post("/DepositSystem-api/CheckLastBalance?", Controller.CheckBalance);
 
 module.exports = router;
