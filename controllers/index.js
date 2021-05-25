@@ -19,7 +19,6 @@ class Controller {
 	static async Login(req, res, next) {
 		try {
 			const { CHANNELCODE, LOGINNAME, PASSWORD } = req.query;
-			// const CHANNELCODE = Number(req.query.CHANNELCODE);
 			const REQUESTDATETIME = requestDateTime();
 			const WORDS = encryptWords(
 				`${CHANNELCODE}${REQUESTDATETIME}${process.env.SHARED_KEY}${LOGINNAME}`
@@ -41,14 +40,28 @@ class Controller {
 		}
 	}
 
-	// static async CheckBalance(req, res, next) {
-	//   const { LOGINNAME, PASSWORD } = req.query;
-	// 		const CHANNELCODE = Number(req.query.CHANNELCODE);
-	// 		const REQUESTDATETIME = requestDateTime();
-	// 		const WORDS = encryptWords(
-	// 			`${CHANNELCODE}${REQUESTDATETIME}${process.env.SHARED_KEY}${LOGINNAME}`
-	// 		);
-	// }
+	static async CheckBalance(req, res, next) {
+		try {
+			const { CHANNELCODE, SESSIONID } = req.query;
+			const REQUESTDATETIME = requestDateTime();
+			const WORDS = encryptWords(
+				`${CHANNELCODE}${SESSIONID}${REQUESTDATETIME}${process.env.SHARED_KEY}`
+			);
+			const result = await axios({
+				method: "POST",
+				url: `${process.env.BASE_URL}/DepositSystem-api/CheckLastBalance?`,
+				params: {
+					CHANNELCODE,
+					SESSIONID,
+					REQUESTDATETIME,
+					WORDS,
+				},
+			});
+			if (result.data) res.status(200).json(result.data);
+		} catch (error) {
+			res(error);
+		}
+	}
 }
 
 module.exports = Controller;
