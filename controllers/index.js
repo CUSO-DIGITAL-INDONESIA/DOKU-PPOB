@@ -25,6 +25,8 @@ class Controller {
 				`${CHANNELCODE}${REQUESTDATETIME}${process.env.SHARED_KEY}${LOGINNAME}`
 			);
 			console.log(req.query);
+			console.log(WORDS);
+			console.log(REQUESTDATETIME);
 			const result = axios({
 				method: "POST",
 				url: `${process.env.BASE_URL}/DepositSystem-api/AgentLoginMIP?`,
