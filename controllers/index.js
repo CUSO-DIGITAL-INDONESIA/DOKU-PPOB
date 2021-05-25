@@ -62,6 +62,33 @@ class Controller {
 			res(error);
 		}
 	}
+
+	static async Inquiry(req, res, next) {
+		try {
+			const { CHANNELCODE, SESSIONID, BILLERID, ACCOUNT_NUMBER, SYSTRACE } =
+				req.query;
+			const REQUESTDATETIME = requestDateTime();
+			const WORDS = encryptWords(
+				`${CHANNELCODE}${SESSIONID}${REQUESTDATETIME}${process.env.SHARED_KEY}${BILLERID}${ACCOUNT_NUMBER}`
+			);
+			const result = await axios({
+				method: "POST",
+				url: `${process.env.BASE_URL}/DepositSystem-api/Inquiry?`,
+				params: {
+					CHANNELCODE,
+					SESSIONID,
+					REQUESTDATETIME,
+					BILLERID,
+					ACCOUNT_NUMBER,
+					SYSTRACE,
+					WORDS,
+				},
+			});
+			if (result.data) res.status(200).json(result.data);
+		} catch (error) {
+			res(error);
+		}
+	}
 }
 
 module.exports = Controller;
