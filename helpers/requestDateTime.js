@@ -4,7 +4,7 @@ function pad2(n) {
 
 function requestDateTime() {
 	let date = new Date();
-	date = new Date(date.setHours(date.getHours() + 7));
+	date = new Date(date.setHours(date.getHours() - 7));
 
 	return Number(
 		date.getFullYear().toString() +
