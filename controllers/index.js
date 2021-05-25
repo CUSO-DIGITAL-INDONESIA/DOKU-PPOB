@@ -18,15 +18,12 @@ class Controller {
 
 	static async Login(req, res, next) {
 		try {
-			const { LOGINNAME, PASSWORD } = req.query;
-			const CHANNELCODE = Number(req.query.CHANNELCODE);
+			const { CHANNELCODE, LOGINNAME, PASSWORD } = req.query;
+			// const CHANNELCODE = Number(req.query.CHANNELCODE);
 			const REQUESTDATETIME = requestDateTime();
 			const WORDS = encryptWords(
 				`${CHANNELCODE}${REQUESTDATETIME}${process.env.SHARED_KEY}${LOGINNAME}`
 			);
-			console.log(req.query);
-			console.log(WORDS);
-			console.log(REQUESTDATETIME);
 			const result = await axios({
 				method: "POST",
 				url: `${process.env.BASE_URL}/DepositSystem-api/AgentLoginMIP?`,
@@ -39,15 +36,19 @@ class Controller {
 				},
 			});
 			if (result.data) res.status(200).json(result.data);
-			// res.json({
-			// 	CHANNELCODE,
-			// 	REQUESTDATETIME,
-			// 	WORDS,
-			// });
 		} catch (error) {
 			res(error);
 		}
 	}
+
+	// static async CheckBalance(req, res, next) {
+	//   const { LOGINNAME, PASSWORD } = req.query;
+	// 		const CHANNELCODE = Number(req.query.CHANNELCODE);
+	// 		const REQUESTDATETIME = requestDateTime();
+	// 		const WORDS = encryptWords(
+	// 			`${CHANNELCODE}${REQUESTDATETIME}${process.env.SHARED_KEY}${LOGINNAME}`
+	// 		);
+	// }
 }
 
 module.exports = Controller;
