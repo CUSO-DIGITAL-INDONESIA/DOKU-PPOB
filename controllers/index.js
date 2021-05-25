@@ -27,7 +27,7 @@ class Controller {
 			console.log(req.query);
 			console.log(WORDS);
 			console.log(REQUESTDATETIME);
-			const result = axios({
+			const result = await axios({
 				method: "POST",
 				url: `${process.env.BASE_URL}/DepositSystem-api/AgentLoginMIP?`,
 				params: {
