@@ -7,4 +7,6 @@ router.get(
 	Controller.NetworkManagement
 );
 
+router.post("/DepositSystem-api/AgentLoginMIP?", Controller.Login);
+
 module.exports = router;
