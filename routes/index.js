@@ -10,5 +10,6 @@ router.get(
 router.post("/DepositSystem-api/AgentLoginMIP?", Controller.Login);
 router.post("/DepositSystem-api/CheckLastBalance?", Controller.CheckBalance);
 router.post("/DepositSystem-api/Inquiry?", Controller.Inquiry);
+router.post("/DepositSystem-api/Payment?", Controller.Payment);
 
 module.exports = router;

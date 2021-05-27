@@ -89,6 +89,48 @@ class Controller {
 			res(error);
 		}
 	}
+
+	static async Payment(req, res, next) {
+		try {
+			const {
+				CHANNELCODE,
+				SESSIONID,
+				BILLERID,
+				ACCOUNT_NUMBER,
+				INQURYID,
+				AMOUNT,
+				SYSTRACE,
+				BILL_ID,
+				ADDITIONALDATA1,
+				PASSWORD,
+			} = req.query;
+			const REQUESTDATETIME = requestDateTime();
+			const WORDS = encryptWords(
+				`${CHANNELCODE}${SESSIONID}${REQUESTDATETIME}${process.env.SHARED_KEY}${BILLERID}${ACCOUNT_NUMBER}`
+			);
+			const result = await axios({
+				method: "POST",
+				url: `${process.env.BASE_URL}/DepositSystem-api/Payment?`,
+				params: {
+					CHANNELCODE,
+					SESSIONID,
+					REQUESTDATETIME,
+					BILLERID,
+					ACCOUNT_NUMBER,
+					INQURYID,
+					AMOUNT,
+					SYSTRACE,
+					BILL_ID,
+					WORDS,
+					ADDITIONALDATA1,
+					PASSWORD,
+				},
+			});
+			if (result.data) res.status(200).json(result.data);
+		} catch (error) {
+			res.send(error);
+		}
+	}
 }
 
 module.exports = Controller;
